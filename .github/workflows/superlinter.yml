@@ -1,6 +1,12 @@
 name: Super-Linter
 
-on: push
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  statuses: write
 
 jobs:
   super-lint:
@@ -9,13 +15,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-        with: 
+        with:
           fetch-depth: 0
 
       - name: Run Super-Linter
-        uses: github/super-linter@v8
+        uses: super-linter/super-linter@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           # Optional (useful for first runs / non-PR pushes)
           # VALIDATE_ALL_CODEBASE: true
+
